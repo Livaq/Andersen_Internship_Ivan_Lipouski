@@ -20,6 +20,7 @@
             {
                 "singleQuote": true
             }
-        ]
+        ],
+        "radix": "off"
     }
 }
