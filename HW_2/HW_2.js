@@ -17,6 +17,7 @@ const makeObjectDeepCopy = (obj) => {
     const arrayCopy = [];
     for (let i = 0; i < obj.length; i++) {
       const elem = obj[i];
+
       if (typeof elem !== 'object' || elem === null) {
         arrayCopy.push(elem);
       }
@@ -33,7 +34,9 @@ const makeObjectDeepCopy = (obj) => {
 const selectFromInterval = (arr, interval1, interval2) => {
   if (Object.prototype.toString.call(arr) !== '[object Array]' || arr.some((elem) => Number.isNaN(parseInt(elem)))) {
     throw new Error('Невалидное первое значение!');
-  } else if (Number.isNaN(parseInt(interval1)) || Number.isNaN(parseInt(interval2))) {
+  }
+
+  if (Number.isNaN(parseInt(interval1)) || Number.isNaN(parseInt(interval2))) {
     throw new Error('Невалидный интервал!');
   } else {
     return arr.filter((elem) => {
