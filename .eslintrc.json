@@ -21,6 +21,10 @@
                 "singleQuote": true
             }
         ],
-        "radix": "off"
+        "radix": "off",
+        "no-restricted-syntax": "off",
+        "no-plusplus": "off",
+        "no-unused-vars": "warn"
+
     }
 }
