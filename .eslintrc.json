@@ -24,7 +24,9 @@
         "radix": "off",
         "no-restricted-syntax": "off",
         "no-plusplus": "off",
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "no-extend-native": "warn",
+        "prefer-spread": "warn"
 
     }
 }

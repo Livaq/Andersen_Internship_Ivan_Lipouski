@@ -1,6 +1,7 @@
 const makeObjectDeepCopy = (obj) => {
   if (Object.prototype.toString.call(obj) === '[object Object]') {
     const objCopy = {};
+
     for (const [key, value] of Object.entries(obj)) {
       if (typeof value !== 'object' || value === null) {
         objCopy[key] = value;
@@ -15,6 +16,7 @@ const makeObjectDeepCopy = (obj) => {
 
   if (Object.prototype.toString.call(obj) === '[object Array]') {
     const arrayCopy = [];
+
     for (let i = 0; i < obj.length; i++) {
       const elem = obj[i];
 
@@ -32,11 +34,15 @@ const makeObjectDeepCopy = (obj) => {
 };
 
 const selectFromInterval = (arr, interval1, interval2) => {
-  if (Object.prototype.toString.call(arr) !== '[object Array]' || arr.some((elem) => Number.isNaN(parseInt(elem)))) {
+  const ERROR_CONDITION_1 =
+    Object.prototype.toString.call(arr) !== '[object Array]' || arr.some((elem) => Number.isNaN(parseInt(elem)));
+  const ERROR_CONDITION_2 = Number.isNaN(parseInt(interval1)) || Number.isNaN(parseInt(interval2));
+
+  if (ERROR_CONDITION_1) {
     throw new Error('Невалидное первое значение!');
   }
 
-  if (Number.isNaN(parseInt(interval1)) || Number.isNaN(parseInt(interval2))) {
+  if (ERROR_CONDITION_2) {
     throw new Error('Невалидный интервал!');
   } else {
     return arr.filter((elem) => {
@@ -53,17 +59,22 @@ const myIterable = {
   to: 4,
   [Symbol.iterator]() {
     let i = myIterable.from;
+
     return {
       next() {
-        if (!('from' in myIterable) || !('to' in myIterable)) {
+        const ERROR_CONDITION_1 = !('from' in myIterable) || !('to' in myIterable);
+        const ERROR_CONDITION_2 = Number.isNaN(parseInt(myIterable.from)) || Number.isNaN(parseInt(myIterable.to));
+        const ERROR_CONDITION_3 = myIterable.from > myIterable.to;
+
+        if (ERROR_CONDITION_1) {
           throw new Error('Не предоставлены значения from или to!');
         }
 
-        if (Number.isNaN(parseInt(myIterable.from)) || Number.isNaN(parseInt(myIterable.to))) {
+        if (ERROR_CONDITION_2) {
           throw new Error('from или to не являются числами!');
         }
 
-        if (myIterable.from > myIterable.to) {
+        if (ERROR_CONDITION_3) {
           throw new Error('From не может быть больше to!');
         }
 
