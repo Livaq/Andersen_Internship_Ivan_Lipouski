@@ -1,7 +1,20 @@
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
 class Stack {
   constructor(maxSize) {
-    this.stack = {};
-    this.count = 0;
+    this.first = null;
+    this.last = null;
+    this.size = 0;
+
+    if (Number.isNaN(parseInt(maxSize)) && maxSize !== undefined) {
+      throw new Error('invalid size');
+    }
+
     this.maxSize = maxSize || 10;
   }
 
@@ -20,62 +33,71 @@ class Stack {
     return stack;
   }
 
-  push(elem) {
-    if (this.count === this.maxSize) {
-      throw new Error('Стэк переполнен!');
+  push(value) {
+    if (this.size === this.maxSize) {
+      throw new Error('Stack exceeds max capacity!');
     }
 
-    this.stack[this.count] = elem;
-    this.count++;
+    const newNode = new Node(value);
+
+    if (!this.first) {
+      this.first = newNode;
+      this.last = newNode;
+    } else {
+      const prevNode = this.first;
+      this.first = newNode;
+      this.first.next = prevNode;
+    }
+
+    this.size++;
   }
 
   pop() {
-    if (this.count === 0) {
-      throw new Error('Стэк Пуст!');
+    if (!this.first) {
+      throw new Error('Stack is empty!');
     }
 
-    this.count--;
-    const lastElement = this.stack[this.count];
-    delete this.stack[this.count];
-    return lastElement;
+    const prevNode = this.first;
+
+    if (this.first === this.last) {
+      this.last = null;
+    }
+
+    this.first = this.first.next;
+    this.size--;
+    return prevNode.value;
   }
 
   peek() {
-    if (this.count === 0) {
+    if (!this.first) {
       return null;
     }
 
-    return this.stack[this.count - 1];
+    return this.first.value;
   }
 
   isEmpty() {
-    return this.count === 0;
+    return !this.first;
   }
 
   toArray() {
-    return [...Object.values(this.stack)];
-  }
+    const arr = [];
 
-  show() {
-    console.log(this.stack);
+    if (this.first) {
+      const fillArray = (elem) => {
+        arr.push(elem.value);
+
+        if (elem.next !== null) {
+          fillArray(elem.next);
+        }
+      };
+
+      fillArray(this.first);
+      return arr.reverse();
+    }
+
+    return [];
   }
 }
 
-const stack1 = new Stack(2);
-console.log(stack1.isEmpty());
-stack1.push(123);
-console.log(stack1.isEmpty());
-stack1.show();
-stack1.push('qweqw');
-console.log(stack1.toArray());
-stack1.show();
-stack1.pop();
-stack1.show();
-stack1.pop();
-stack1.show();
-console.log(stack1.isEmpty());
-const stack2 = Stack.fromIterable([1,2,3]);
-stack2.show();
-
-
-module.exports = { Stack };
+module.exports = { Stack, Node };
