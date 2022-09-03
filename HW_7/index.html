@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta
+    charset='UTF-8'
+    name='viewport'
+    content='width=device-width, initial-scale=1.0'
+  />
+  <link rel='stylesheet' href='calculator.css'>
+  <title>Calculator</title>
+</head>
+<body>
+<div class='wrap'>
+  <div class='container' id='container'>
+    <h2>Calculator</h2>
+    <section class='display-container'>
+      <div data-previous class='display border'></div>
+      <div data-current class='display'></div>
+    </section>
+    <div class='memory-container'>
+      <button data-memoty-clear class='memory-btn'>MC</button>
+      <button data-memory-recall class='memory-btn'>MR</button>
+      <button data-memory-add class='memory-btn'>M+</button>
+      <button data-memory-subtract class='memory-btn'>M-</button>
+      <h3>Memory:</h3>
+      <div data-memory class='memory'></div>
+    </div>
+    <section class='btn-container'>
+      <div class='numbers-container'>
+        <button data-number class='number-btn'>7</button>
+        <button data-number class='number-btn'>8</button>
+        <button data-number class='number-btn'>9</button>
+        <button data-number class='number-btn'>4</button>
+        <button data-number class='number-btn'>5</button>
+        <button data-number class='number-btn'>6</button>
+        <button data-number class='number-btn'>1</button>
+        <button data-number class='number-btn'>2</button>
+        <button data-number class='number-btn'>3</button>
+        <button data-delete class='number-btn red'>C</button>
+        <button data-number class='number-btn'>0</button>
+        <button data-number class='number-btn'>.</button>
+      </div>
+      <div class='operations-container'>
+        <button data-reverse class='operation-btn'>+/-</button>
+        <button class='operation-btn'>=></button>
+        <button data-operation class='operation-btn'>*</button>
+        <button data-operation class='operation-btn'>÷</button>
+        <button data-operation class='operation-btn'>-</button>
+        <button data-operation class='operation-btn'>+</button>
+        <button data-equals class='operation-btn equal'>=</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script type='text/javascript' src='calculator.js'></script>
+</body>
+</html>
