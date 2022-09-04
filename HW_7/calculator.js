@@ -3,33 +3,44 @@ class Calculator {
     this.previousOperandText = previousOperandText;
     this.currentOperandText = currentOperandText;
     this.memory = memory;
-    this.currentOperand = '0';
-    this.previousOperand = '';
-    this.operation = undefined;
+    this.allClear();
     this.updateDisplay();
   }
 
+  allClear() {
+    this.currentOperand = '0';
+    this.previousOperand = '';
+    this.operation = undefined;
+    this.memoryClear();
+  }
+
   memoryAdd() {
-    if (!this.currentOperand) {
+    const prev = this.memory;
+    const current = this.currentOperand;
+
+    if (!current) {
       return;
     }
 
-    if (this.memory.innerText === '') {
-      this.memory.innerText = parseFloat(this.currentOperand);
+    if (prev.innerText === '') {
+      prev.innerText = parseFloat(current);
     } else {
-      this.memory.innerText = parseFloat(this.memory.innerText) + parseFloat(this.currentOperand);
+      prev.innerText = parseFloat(prev.innerText) + parseFloat(current);
     }
   }
 
   memorySubtract() {
-    if (!this.currentOperand) {
+    const prev = this.memory;
+    const current = this.currentOperand;
+
+    if (!current) {
       return;
     }
 
-    if (this.memory.innerText === '') {
-      this.memory.innerText = -parseFloat(this.currentOperand);
+    if (prev.innerText === '') {
+      prev.innerText = -parseFloat(current);
     } else {
-      this.memory.innerText = parseFloat(this.memory.innerText) - parseFloat(this.currentOperand);
+      prev.innerText = parseFloat(prev.innerText) - parseFloat(current);
     }
   }
 
@@ -41,6 +52,7 @@ class Calculator {
     if (this.memory.innerText === '') {
       return;
     }
+
     this.currentOperand = this.memory.innerText;
   }
 
@@ -53,10 +65,12 @@ class Calculator {
   }
 
   delete() {
-    if (this.currentOperand.toString().slice(0, -1) === '') {
+    const lastDeleted = this.currentOperand.toString().slice(0, -1);
+
+    if (lastDeleted === '') {
       this.currentOperand = '0';
     } else {
-      this.currentOperand = this.currentOperand.toString().slice(0, -1);
+      this.currentOperand = lastDeleted;
     }
   }
 
@@ -78,9 +92,11 @@ class Calculator {
       this.operation = operation;
       return;
     }
+
     if (this.previousOperand !== '') {
       this.compute();
     }
+
     this.operation = operation;
     this.previousOperand = this.currentOperand;
     this.currentOperand = '';
@@ -88,13 +104,14 @@ class Calculator {
 
   compute() {
     let computation;
+    let string;
     const prev = parseFloat(this.previousOperand);
     const current = parseFloat(this.currentOperand);
     const sum = (prev + current).toFixed(8).toString();
     const subtraction = (prev - current).toFixed(8).toString();
     const multiplication = (prev * current).toFixed(8).toString();
     const division = (prev / current).toFixed(8).toString();
-    let string;
+
     const cutZeroes = (str) => {
       string = str;
 
@@ -139,6 +156,7 @@ class Calculator {
       default:
         return;
     }
+
     this.currentOperand = computation;
     this.operation = undefined;
     this.previousOperand = '';
@@ -158,11 +176,14 @@ class Calculator {
 const numberButtons = document.querySelectorAll('[data-number]');
 const operationButtons = document.querySelectorAll('[data-operation]');
 const equalsButton = document.querySelector('[data-equals]');
-const deleteButton = document.querySelector('[data-delete]');
 const reverseButton = document.querySelector('[data-reverse]');
+const deleteButton = document.querySelector('[data-delete]');
+const allClearButton = document.querySelector('[data-all-clear]');
+
 const previousOperandText = document.querySelector('[data-previous]');
 const currentOperandText = document.querySelector('[data-current]');
 const memory = document.querySelector('[data-memory]');
+
 const memoryClearButton = document.querySelector('[data-memoty-clear]');
 const memoryRecallButton = document.querySelector('[data-memory-recall]');
 const memoryAddButton = document.querySelector('[data-memory-add]');
@@ -184,11 +205,6 @@ operationButtons.forEach((button) => {
   });
 });
 
-deleteButton.addEventListener('click', () => {
-  calculator.delete();
-  calculator.updateDisplay();
-});
-
 equalsButton.addEventListener('click', () => {
   calculator.compute();
   calculator.updateDisplay();
@@ -196,6 +212,16 @@ equalsButton.addEventListener('click', () => {
 
 reverseButton.addEventListener('click', () => {
   calculator.reverse();
+  calculator.updateDisplay();
+});
+
+deleteButton.addEventListener('click', () => {
+  calculator.delete();
+  calculator.updateDisplay();
+});
+
+allClearButton.addEventListener('click', () => {
+  calculator.allClear();
   calculator.updateDisplay();
 });
 
